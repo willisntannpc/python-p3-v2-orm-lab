@@ -2,7 +2,16 @@
 from __init__ import CURSOR, CONN
 from department import Department
 
+
 class Employee:
+    # Existing methods like __init__, save(), create(), etc.
+
+    def reviews(self):
+        # Method to fetch all reviews for this employee
+        from review import Review  # Import the Review class here to avoid circular import
+        CURSOR.execute("SELECT * FROM reviews WHERE employee_id = ?;", (self.id,))
+        rows = CURSOR.fetchall()
+        return [Review.instance_from_db(row) for row in rows]
 
     # Dictionary of objects saved to the database.
     all = {}
